@@ -157,7 +157,7 @@ namespace AudioStreamPlugin
         }
 
 
-        [RocketCommand(nameof(Pause), "Destroy audio", "<audio id>")]
+        [RocketCommand(nameof(Destroy), "Destroy audio", "<audio id>")]
         public void Destroy(IRocketPlayer player, string[] args)
         {
             if (args.Length != 1 || !int.TryParse(args[0], out var audioId))
