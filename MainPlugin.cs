@@ -170,6 +170,13 @@ namespace AudioStreamPlugin
             UnturnedChat.Say($"Audio[{audioId}] destroying...", Color.green);
         }
 
+        [RocketCommand(nameof(DestroyAll), "Destroy all audio instances")]
+        public void DestroyAll()
+        {
+            AudioModule.Instance.DestroyAll(ESteamCall.CLIENTS);
+            UnturnedChat.Say("Destroying all audio instances...", Color.green);
+        }
+
         [RocketCommand(nameof(SetLoop), "Loop audio?", "<audio id> <loop:true/false>")]
         public void SetLoop(IRocketPlayer player, string[] args)
         {
@@ -181,6 +188,59 @@ namespace AudioStreamPlugin
 
             AudioModule.Instance.SetLoop(ESteamCall.CLIENTS, audioId, loop);
             UnturnedChat.Say($"Audio[{audioId}] looping: {loop}", Color.green);
+        }
+
+        [RocketCommand(nameof(SetMode), "Set mode of audio", "<positional:true/false>")]
+        public void SetMode(IRocketPlayer player, string[] args)
+        {
+            if (args.Length != 2 || !int.TryParse(args[0], out var audioId) || !bool.TryParse(args[1], out var positional))
+            {
+                UnturnedChat.Say(player, "Usage: /setmode <audio id> <positional:true/false>", Color.red);
+                return;
+            }
+
+            AudioModule.Instance.SetMode(ESteamCall.CLIENTS, audioId, positional ? AudioMode.Positional : AudioMode.NonPositional);
+            UnturnedChat.Say($"Audio[{audioId}] mode: {(positional ? "Positional" : "Non positional")}", Color.green);
+        }
+
+        [RocketCommand(nameof(SetSpatialBlend), "Set spacial blend of audio", "<audio id> <blend>")]
+        public void SetSpatialBlend(IRocketPlayer player, string[] args)
+        {
+            if (args.Length != 2 || !int.TryParse(args[0], out var audioId) || !float.TryParse(args[1], out var blend))
+            {
+                UnturnedChat.Say(player, "Usage: /setspatialblend <audio id> <blend>", Color.red);
+                return;
+            }
+
+            AudioModule.Instance.SetSpatialBlend(ESteamCall.CLIENTS, audioId, blend);
+            UnturnedChat.Say($"Audio[{audioId}] MaxDistance set to: {blend}!", Color.green);
+        }
+
+
+        [RocketCommand(nameof(SetDopplerLevel), "Set doppler level of audio", "<audio id> <level>")]
+        public void SetDopplerLevel(IRocketPlayer player, string[] args)
+        {
+            if (args.Length != 2 || !int.TryParse(args[0], out var audioId) || !float.TryParse(args[1], out var level))
+            {
+                UnturnedChat.Say(player, "Usage: /setdopplerlevel <audio id> <level>", Color.red);
+                return;
+            }
+
+            AudioModule.Instance.SetDopplerLevel(ESteamCall.CLIENTS, audioId, level);
+            UnturnedChat.Say($"Audio[{audioId}] Doppler Level set to: {level}!", Color.green);
+        }
+
+        [RocketCommand(nameof(SetSpread), "Set spread of audio", "<audio id> <spread>")]
+        public void SetSpread(IRocketPlayer player, string[] args)
+        {
+            if (args.Length != 2 || !int.TryParse(args[0], out var audioId) || !float.TryParse(args[1], out var spread))
+            {
+                UnturnedChat.Say(player, "Usage: /setspread <audio id> <spread>", Color.red);
+                return;
+            }
+
+            AudioModule.Instance.SetSpread(ESteamCall.CLIENTS, audioId, spread);
+            UnturnedChat.Say($"Audio[{audioId}] Spread set to: {spread}!", Color.green);
         }
     }
 }
